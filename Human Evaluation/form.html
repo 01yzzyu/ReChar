@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Rating Questionnaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+            position: relative;
+        }
+        .instructions {
+            margin-bottom: 40px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .question-group {
+            margin-bottom: 60px;
+        }
+        .question-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .image-card {
+            width: 250px;
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: white;
+            border-radius: 10px;
+        }
+        .image-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .controls {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .control-group input[type="number"] {
+            width: 40px;
+            text-align: center;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .thank-you-message {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 30px;
+        }
+        /* Floating reference images */
+        .floating-images {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .floating-images img {
+            width: 150px; /* Larger images */
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body ondblclick="scrollToTop()">
+    <h1>User Study</h1>
+    <div class="instructions">
+        <p>Please evaluate the images based on the following criteria. Assign scores based on each criterion to reflect your judgment. You can adjust your scores at any time before submitting.</p>
+        <p>Tips: Double-click a blank space to return to the top.</p>
+        <p>The first picture in the upper right corner is the reference style image, and the second picture is the reference content image.</p>
+        <ol>
+            <li><strong>Style</strong>: Assess the effectiveness in capturing and replicating the unique visual style or artistic quality of the original image. A higher score indicates a more faithful replication of style.</li>
+            <li><strong>Structure</strong>: Evaluate the accuracy in maintaining structural details, such as shapes, lines, and spatial arrangement. A higher score means better preservation of the original structure.</li>
+            <li><strong>Decoration</strong>: Evaluate how decorative the image is, considering its use of additional visual elements and stylistic embellishments.</li>
+            <li><strong>Aesthetic</strong>: Judge the overall aesthetic quality, including balance, composition, and visual appeal. A higher score reflects a more aesthetically pleasing image.</li>
+        </ol>
+    </div>
+
+    <!-- Floating reference images -->
+    <div class="floating-images">
+        <img src="Style.png" alt="Style Reference">
+        <img src="Structure.png" alt="Structure Reference">
+    </div>
+
+    <div id="questions">
+        <!-- Questions will be populated here -->
+    </div>
+
+    <div class="button-container">
+        <button onclick="saveResultsToFile()">Save Results</button>
+    </div>
+
+    <div id="final-message"></div>
+
+    <script>
+        const subfolders = ["eval-yi1", "eval-ry", "eval-tian", "eval-xing", "eval-yn"];
+        const categories = ["Style", "Structure", "Decoration", "Aesthetic"];
+        const imageNames = ["barracouta.png", "mushroom.png", "Chinese Landscape Painting.png", "Rainbow Cloud.png", "Flowers.png", "spiny lobster.png", "Ancient Chinese Architecture.png", "Terracotta Army.png", "small mushroom.png", "small flower.png", "Chinese Shanshui.png", "sturgeon.png", "amphibian.png", "rainbow.png"];
+        const questionsContainer = document.getElementById("questions");
+
+        // Function to shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            }
+        }
+
+        // Function to select random images (10 images)
+        function getRandomImages() {
+            shuffleArray(imageNames);
+            return imageNames.slice(0, 10);  // Select first 10 images after shuffling
+        }
+
+        // Function to generate questions
+        function generateQuestions() {
+            const randomImages = getRandomImages();
+
+            randomImages.forEach((imageName, questionGroupIndex) => {
+                const questionGroupDiv = document.createElement("div");
+                questionGroupDiv.classList.add("question-group");
+
+                const questionGroupTitle = document.createElement("h2");
+                questionGroupTitle.textContent = `Text-Guided: ${imageName.replace('.png', '')}`;
+                questionGroupDiv.appendChild(questionGroupTitle);
+
+                const imageContainer = document.createElement("div");
+                imageContainer.classList.add("question-container");
+
+                // Shuffle subfolders and display images in random order
+                const shuffledSubfolders = [...subfolders];
+                shuffleArray(shuffledSubfolders);
+
+                // Display the images once for each shuffled subfolder
+                shuffledSubfolders.forEach((subfolder, index) => {
+                    const card = document.createElement("div");
+                    card.classList.add("image-card");
+                    card.innerHTML = `<img src="images/${subfolder}/${imageName}" alt="Image ${index + 1}">`;
+                    imageContainer.appendChild(card);
+                });
+
+                questionGroupDiv.appendChild(imageContainer);
+
+                // Create a set of questions for each category
+                categories.forEach((category, categoryIndex) => {
+                    const questionDiv = document.createElement("div");
+                    questionDiv.classList.add("question");
+
+                    const questionTitle = document.createElement("h3");
+                    questionTitle.textContent = `${category}`;
+                    questionDiv.appendChild(questionTitle);
+
+                    const questionControlsContainer = document.createElement("div");
+                    questionControlsContainer.classList.add("question-container");
+
+                    // Create score inputs for each shuffled subfolder
+                    shuffledSubfolders.forEach((subfolder, index) => {
+                        const controlCard = document.createElement("div");
+                        controlCard.classList.add("controls");
+                        controlCard.innerHTML = `
+                            <div class="control-group">
+                                <label>Score:</label>
+                                <button onclick="changeScore('${questionGroupIndex}-${categoryIndex}-${index}', -1)">-</button>
+                                <input type="number" id="score-${questionGroupIndex}-${categoryIndex}-${index}" value="3" min="0" max="5">
+                                <button onclick="changeScore('${questionGroupIndex}-${categoryIndex}-${index}', 1)">+</button>
+                            </div>
+                        `;
+                        questionControlsContainer.appendChild(controlCard);
+                    });
+
+                    questionDiv.appendChild(questionControlsContainer);
+                    questionGroupDiv.appendChild(questionDiv);
+                });
+
+                questionsContainer.appendChild(questionGroupDiv);
+            });
+
+            // Add the final thank-you message
+            const finalMessageDiv = document.getElementById('final-message');
+            const thankYouMessage = document.createElement('div');
+            thankYouMessage.className = 'thank-you-message';
+            thankYouMessage.textContent = 'Thank you so much for your help! We believe you will achieve great success, make significant contributions, and publish many influential papers in the future.';
+            finalMessageDiv.appendChild(thankYouMessage);
+        }
+
+        // Function to change the score
+        function changeScore(id, delta) {
+            const input = document.getElementById(`score-${id}`);
+            let value = parseInt(input.value);
+            value = Math.min(Math.max(value + delta, 0), 5);
+            input.value = value;
+        }
+
+        // Function to save results to a .txt file
+        function saveResultsToFile() {
+            const results = {};
+            subfolders.forEach(subfolder => {
+                results[subfolder] = {};
+                categories.forEach(category => {
+                    results[subfolder][category] = [];
+                    imageNames.forEach((imageName, index) => {
+                        const score = parseInt(document.getElementById(`score-${index}-${categories.indexOf(category)}-${subfolders.indexOf(subfolder)}`).value);
+                        results[subfolder][category].push(score);
+                    });
+                });
+            });
+
+            // Compute the Average Score and Preference Rate for each category
+            const output = [];
+            Object.keys(results).forEach(subfolder => {
+                categories.forEach(category => {
+                    let totalScore = 0;
+                    results[subfolder][category].forEach(score => {
+                        totalScore += score;
+                    });
+                    const averageScore = totalScore / results[subfolder][category].length;
+                    const preferenceRate = (averageScore / 5) * 100;
+                    output.push(`${category} - Average Score: ${averageScore.toFixed(2)}, Preference Rate: ${preferenceRate.toFixed(2)}% for ${subfolder}`);
+                });
+            });
+
+            // Create and download the file
+            const blob = new Blob([output.join("\n")], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'results.txt';
+            link.click();
+        }
+
+        // Call the function to generate questions on page load
+        generateQuestions();
+
+        // Function to scroll back to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
