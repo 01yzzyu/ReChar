@@ -5,5 +5,4 @@ This is the project page of ReChar.
 
 ![mech](https://github.com/01yzzyu/ReChar/blob/main/assets/framework_00.png)	
 
-ReChar leverages CLIP encoder for semantic alignment and employs the cross-attention mechanism for feature integration, generating stylized character images that preserve the essence of the original content while embodying the artistic attributes of the reference style and incorporating text-guided elements. $\oplus$ denotes element-wise sum between matrices.ugmented Physics: Creating Interactive and Embedded Physics Simulations from Static Textbook Diagrams
-
+ReChar integrates three distinct yet interrelated modules: (1) a character structure extraction module, which is designed to preserve the integrity of the character's form, (2) an element generation module, responsible for producing user-defined decorative elements based on textual input, and (3) a style extraction module, aimed at capturing the visual style from a reference image provided by the user. These components are subsequently fused in a controllable synthesis step, which enables flexible and user-customized image generation. To provide a clearer understanding of our approach, we will illustrate the generation process of an instance through a detailed case study.
