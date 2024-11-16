@@ -1,6 +1,6 @@
 # ReChar
 
-This is the project page of ReChar.
+This is the project page of ReChar: Revitalising Characters with Structure-Preserved and User-Specified Aesthetic Enhancements.
 
 
 ![mech](https://github.com/01yzzyu/ReChar/blob/main/assets/framework_00.png)	
