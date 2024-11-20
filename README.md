@@ -51,7 +51,7 @@ Please note that we used a previous version of diffusers (0.25.0) and did not us
 
    python -m pip install bitsandbytes --prefer-binary --extra-index-url=https://jllllll.github.io/bitsandbytes-windows-webui
    ```
-
+You also can directly transplant the environment I installed to your own conda env. The environment link is as follows: https://pan.baidu.com/s/1kWNClH-SF6zLWm-WF9vkSA?pwd=3pnt Extraction code: 3pnt
 ### Usage
 
 1. **Fine-tuning**
