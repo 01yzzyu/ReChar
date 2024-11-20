@@ -10,11 +10,12 @@ ReChar integrates three distinct yet interrelated modules: (1) a character struc
 
 
 # Implicit Style-Content Separation using B-LoRA
-<a href="https://B-LoRA.github.io/B-LoRA/"><img src="https://img.shields.io/static/v1?label=Project&message=Website&color=blue"></a> [![arXiv](https://img.shields.io/badge/arXiv-2403.14572-b31b1b.svg)](https://arxiv.org/abs/2403.145721)
+<a href="https://01yzzyu.github.io/rechar.github.io/"><img src="https://img.shields.io/static/v1?label=Project&message=Website&color=blue"></a> 
 
-![Teaser Image](docs/teaser_blora.png)
 
-This repository contains the official implementation of the B-LoRA method, which enables implicit style-content separation of a single input image for various image stylization tasks. B-LoRA leverages the power of Stable Diffusion XL (SDXL) and Low-Rank Adaptation (LoRA) to disentangle the style and content components of an image, facilitating applications such as image style transfer, text-based image stylization, and consistent style generation.
+
+This repository contains the official implementation of the ReChar method, which enables implicit style-content separation of a single input image for Revitalising Character task. 
+Rechar leverages the power of Stable Diffusion XL (SDXL) and Low-Rank Adaptation (LoRA) to disentangle the style and content components of an image, facilitating applications such as image style transfer, text-based image stylization, and consistent style generation.
 
 ## 🔧 21.5.2024: Important Update 🔧
 There were some issues with the new versions of diffusers and PEFT that caused the fine-tuning process to not converge as quickly as desired. In the meantime, we have uploaded the original training script that we used in the paper.
@@ -32,23 +33,22 @@ Please note that we used a previous version of diffusers (0.25.0) and did not us
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yardenfren1996/B-LoRA.git
-   cd B-LoRA
+   git clone https://github.com/01yzzyu/ReChar.git
+   cd ReChar
    ```
 
 2. Install the required dependencies:
    ```
    pip install -r requirements.txt
    ```
-   (for windows 10 [here](https://github.com/yardenfren1996/B-LoRA/issues/6))
 
 ### Usage
 
-1. **Training B-LoRAs**
+1. **Fine-tuning**
 
    To train the B-LoRAs for a given input image, run:
    ```
-   accelerate launch train_dreambooth_b-lora_sdxl.py \
+   accelerate launch finetune_sdxl.py \
     --pretrained_model_name_or_path="stabilityai/stable-diffusion-xl-base-1.0" \
     --instance_data_dir="<path/to/example_images>" \
     --output_dir="<path/to/output_dir>" \
@@ -66,11 +66,9 @@ Please note that we used a previous version of diffusers (0.25.0) and did not us
     --use_8bit_adam \
     --mixed_precision="fp16"
       ```
-This will optimize the B-LoRA weights for the content and style and store them in  `output_dir`.
+This will optimize the weights for the content and style and store them in  `output_dir`.
 Parameters that need to replace  `instance_data_dir`, `output_dir`, `instance_prompt` (in our paper we use `A [v]`)
 
-
-![Apps Image](docs/apps_method1.png)
 
 2. **Inference**   
 
@@ -81,19 +79,6 @@ Parameters that need to replace  `instance_data_dir`, `output_dir`, `instance_pr
    This will generate new images with the content of the first B-LoRA and the style of the second B-LoRA.
    Note that you need to replace `c` and `s` in the prompt according to the optimization prompt.
 
-   For text-based image stylization (2), run:
-   ```
-   python inference.py --prompt="A <c> made of gold"" --content_B_LoRA="<path/to/content_B-LoRA>" --output_path="<path/to/output_dir>"
-   ```
-   This will generate new images with the content of the given B-LoRA and the style specified by the text prompt.
-
-   For consistent style generation (3), run:
-   ```
-   python inference.py --prompt="A backpack in <s> style" --style_B_LoRA="<path/to/style_B-LoRA>" --output_path="<path/to/output_dir>"
-   ```
-   This will generate new images with the specified content and the style of the given B-LoRA.
-
-
    Several additional parameters that you can set in the `inference.py` file include:
    1. `--content_alpha`, `--style_alpha` for controlling the strength of the adapters.
    2. `--num_images_per_prompt` for specifying the number of output images.
@@ -102,18 +87,6 @@ Parameters that need to replace  `instance_data_dir`, `output_dir`, `instance_pr
 
 ## Citation
 
-If you use B-LoRA in your research, please cite the following paper:
-
-```bibtex
-@misc{frenkel2024implicit,
-      title={Implicit Style-Content Separation using B-LoRA}, 
-      author={Yarden Frenkel and Yael Vinker and Ariel Shamir and Daniel Cohen-Or},
-      year={2024},
-      eprint={2403.14572},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
-}
-```
 
 ## License
 
@@ -121,4 +94,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-If you have any questions or suggestions, please feel free to open an issue or contact the authors at [yardenfren@gmail.com](mailto:yardenfren@gmail.com).
+If you have any questions or suggestions, please feel free to open an issue or contact the authors at [yangzhy21@gmail.com](mailto:yangzhy21@gmail.com).
