@@ -60,7 +60,7 @@ You also can directly transplant the environment I installed to your own conda e
 
    To train the ReChar for a given input image, run:
    ```
-   accelerate launch finetune_sdxl.py \
+   accelerate launch finetune.py \
     --pretrained_model_name_or_path="stabilityai/stable-diffusion-xl-base-1.0" \
     --instance_data_dir="<path/to/character_images/style_images>" \
     --output_dir="<path/to/output_dir>" \
