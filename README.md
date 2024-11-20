@@ -39,7 +39,23 @@ Please note that we used a previous version of diffusers (0.25.0) and did not us
 
 2. Install the required dependencies:
    ```
+   **Linux**
    pip install -r requirements.txt
+   ```
+
+   ```
+   **Window**
+   Immediately after creating the conda environment, install CUDA PyTorch:
+
+   pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+   Then, pip install -r requirements.txt as normal.
+
+   After that:
+
+   pip uninstall bitsandbytes
+
+   python -m pip install bitsandbytes --prefer-binary --extra-index-url=https://jllllll.github.io/bitsandbytes-windows-webui
    ```
 
 ### Usage
