@@ -17,7 +17,7 @@ ReChar integrates three distinct yet interrelated modules: (1) a character struc
 This repository contains the official implementation of the ReChar method, which enables implicit style-content separation of a single input image for Revitalising Character task. 
 Rechar leverages the power of Stable Diffusion XL (SDXL) and Low-Rank Adaptation (LoRA) to disentangle the style and content components of an image, facilitating applications such as image style transfer, text-based image stylization, and consistent style generation.
 
-## 🔧 21.5.2024: Important Update 🔧
+## 🔧 Important Update 🔧
 There were some issues with the new versions of diffusers and PEFT that caused the fine-tuning process to not converge as quickly as desired. In the meantime, we have uploaded the original training script that we used in the paper.
 
 Please note that we used a previous version of diffusers (0.25.0) and did not use PEFT.
