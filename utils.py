@@ -1,7 +1,7 @@
 from typing import Optional
 
 BLOCKS = {
-    'content': ['unet.up_blocks.0.attentions.0'],
+    'structure': ['unet.up_blocks.0.attentions.0'],
     'style': ['unet.up_blocks.0.attentions.1'],
 }
 
