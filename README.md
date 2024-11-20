@@ -51,7 +51,8 @@ Please note that we used a previous version of diffusers (0.25.0) and did not us
 
    python -m pip install bitsandbytes --prefer-binary --extra-index-url=https://jllllll.github.io/bitsandbytes-windows-webui
    ```
-You also can directly transplant the environment I installed to your own conda env. The environment link is as follows: https://pan.baidu.com/s/1kWNClH-SF6zLWm-WF9vkSA?pwd=3pnt Extraction code: 3pnt
+You also can directly transplant the environment I installed to your own conda env. The environment link is as follow [link](https://pan.baidu.com/s/1kWNClH-SF6zLWm-WF9vkSA?pwd=3pnt)
+
 ### Usage
 
 1. **Fine-tuning**
@@ -60,7 +61,7 @@ You also can directly transplant the environment I installed to your own conda e
    ```
    accelerate launch finetune_sdxl.py \
     --pretrained_model_name_or_path="stabilityai/stable-diffusion-xl-base-1.0" \
-    --instance_data_dir="<path/to/example_images>" \
+    --instance_data_dir="<path/to/character_images/style_images>" \
     --output_dir="<path/to/output_dir>" \
     --instance_prompt="<prompt>" \
     --resolution=1024 \
@@ -84,11 +85,9 @@ Parameters that need to replace  `instance_data_dir`, `output_dir`, `instance_pr
 
    For image stylization based on a reference style image (1) and character structure image (2), run:
    ```
-   python inference.py --prompt="A <c> in <s> style" --content_B_LoRA="<path/to/content_B-LoRA>" --style_B_LoRA="<path/to/style_B-LoRA>" --output_path="<path/to/output_dir>"
+   python inference.py --prompt="A Decorative element" --structure_LoRA="<path/to/structure_LoRA>" --style_LoRA="<path/to/style_LoRA>" --output_path="<path/to/output_dir>"
    ```
-   This will generate new images with the content of the first B-LoRA and the style of the second B-LoRA.
-   Note that you need to replace `c` and `s` in the prompt according to the optimization prompt.
-
+ 
    Several additional parameters that you can set in the `inference.py` file include:
    1. `--content_alpha`, `--style_alpha` for controlling the strength of the adapters.
    2. `--num_images_per_prompt` for specifying the number of output images.
