@@ -86,13 +86,19 @@ Parameters that need to replace  `instance_data_dir`, `output_dir`, `instance_pr
 
    For image stylization based on a reference style image (1) and character structure image (2), run:
    ```
-   python inference.py --prompt="A Decorative element" --structure_LoRA="<path/to/structure_LoRA>" --style_LoRA="<path/to/style_LoRA>" --output_path="<path/to/output_dir>"
+   python inference.py \
+   --prompt="A Decorative element" \
+   --structure_LoRA="<path/to/structure_LoRA>" \
+   --style_LoRA="<path/to/style_LoRA>" \
+   --output_path="<path/to/output_dir>" \
+   --structure_alpha 1.0 \
+   --style_alpha 0.9 \
+   --control_image_path "/path/to/control_image.png"
    ```
  
    Several additional parameters that you can set in the `inference.py` file include:
-   1. `--content_alpha`, `--style_alpha` for controlling the strength of the adapters.
+   1. `--structure_alpha`, `--style_alpha` for controlling the strength of the adapters.
    2. `--num_images_per_prompt` for specifying the number of output images.
-
 
 
 ## License
