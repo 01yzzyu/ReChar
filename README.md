@@ -62,7 +62,7 @@ Please note that we used a previous version of diffusers (0.25.0) and did not us
 
 1. **Fine-tuning**
 
-   To train the B-LoRAs for a given input image, run:
+   To train the ReChar for a given input image, run:
    ```
    accelerate launch finetune_sdxl.py \
     --pretrained_model_name_or_path="stabilityai/stable-diffusion-xl-base-1.0" \
@@ -82,13 +82,13 @@ Please note that we used a previous version of diffusers (0.25.0) and did not us
     --use_8bit_adam \
     --mixed_precision="fp16"
       ```
-This will optimize the weights for the content and style and store them in  `output_dir`.
+This will optimize the weights for the structure extraction and style extraction and store them in  `output_dir`.
 Parameters that need to replace  `instance_data_dir`, `output_dir`, `instance_prompt` (in our paper we use `A [v]`)
 
 
 2. **Inference**   
 
-   For image stylization based on a reference style image (1), run:
+   For image stylization based on a reference style image (1) and character structure image (2), run:
    ```
    python inference.py --prompt="A <c> in <s> style" --content_B_LoRA="<path/to/content_B-LoRA>" --style_B_LoRA="<path/to/style_B-LoRA>" --output_path="<path/to/output_dir>"
    ```
@@ -99,9 +99,6 @@ Parameters that need to replace  `instance_data_dir`, `output_dir`, `instance_pr
    1. `--content_alpha`, `--style_alpha` for controlling the strength of the adapters.
    2. `--num_images_per_prompt` for specifying the number of output images.
 
-   (For a111 and comfy see this [issue](https://github.com/yardenfren1996/B-LoRA/issues/7))
-
-## Citation
 
 
 ## License
