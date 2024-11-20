@@ -11,38 +11,38 @@ from transformers import CLIPVisionModelWithProjection
 from utils import BLOCKS, filter_lora, scale_lora
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Generate images using Stable Diffusion XL with ReChar.")
+    parser = argparse.ArgumentParser(description="Generate images using Stable Diffusion XL with LoRA and IP-Adapter.")
     parser.add_argument("--prompt", type=str, required=True, help="Base prompt for image generation.")
     parser.add_argument("--output_path", type=str, required=True, help="Path to save the generated images.")
-    parser.add_argument("--content_B_LoRA", type=str, default=None, help="Path for the content B-LoRA model.")
-    parser.add_argument("--style_B_LoRA", type=str, default=None, help="Path for the style B-LoRA model.")
-    parser.add_argument("--content_alpha", type=float, default=1.0, help="Alpha to scale content LoRA weights.")
-    parser.add_argument("--style_alpha", type=float, default=1.0, help="Alpha to scale style B-LoRA weights.")
+    parser.add_argument("--structure_LoRA", type=str, default=None, help="Path for the structure LoRA model.")
+    parser.add_argument("--style_LoRA", type=str, default=None, help="Path for the style LoRA model.")
+    parser.add_argument("--structure_alpha", type=float, default=1.0, help="Alpha to scale structure LoRA weights.")
+    parser.add_argument("--style_alpha", type=float, default=1.0, help="Alpha to scale style LoRA weights.")
     parser.add_argument("--control_image_path", type=str, required=True, help="Path to the control image for ControlNet.")
     parser.add_argument("--num_images_per_prompt", type=int, default=1, help="Number of images to generate per prompt.")
     return parser.parse_args()
 
-def load_b_lora_to_unet(pipe, content_lora_model_id=None, style_lora_model_id=None, content_alpha=1.0, style_alpha=1.0):
+def load_lora_to_unet(pipe, structure_lora_model_id=None, style_lora_model_id=None, structure_alpha=1.0, style_alpha=1.0):
     try:
-        content_B_LoRA = {}
-        style_B_LoRA = {}
+        structure_LoRA = {}
+        style_LoRA = {}
 
-        if content_lora_model_id:
-            content_B_LoRA_sd, _ = pipe.lora_state_dict(content_lora_model_id)
-            content_B_LoRA = filter_lora(content_B_LoRA_sd, BLOCKS['content'])
-            content_B_LoRA = scale_lora(content_B_LoRA, content_alpha)
+        if structure_lora_model_id:
+            structure_LoRA_sd, _ = pipe.lora_state_dict(structure_lora_model_id)
+            structure_LoRA = filter_lora(structure_LoRA_sd, BLOCKS['structure'])
+            structure_LoRA = scale_lora(structure_LoRA, structure_alpha)
 
         if style_lora_model_id:
-            style_B_LoRA_sd, _ = pipe.lora_state_dict(style_lora_model_id)
-            style_B_LoRA = filter_lora(style_B_LoRA_sd, BLOCKS['style'])
-            style_B_LoRA = scale_lora(style_B_LoRA, style_alpha)
+            style_LoRA_sd, _ = pipe.lora_state_dict(style_lora_model_id)
+            style_LoRA = filter_lora(style_LoRA_sd, BLOCKS['style'])
+            style_LoRA = scale_lora(style_LoRA, style_alpha)
 
-        res_lora = {**content_B_LoRA, **style_B_LoRA}
+        res_lora = {**structure_LoRA, **style_LoRA}
         pipe.load_lora_into_unet(res_lora, None, pipe.unet)
     except Exception as e:
-        raise RuntimeError(f"Failed to load B-LoRA into UNet: {e}")
+        raise RuntimeError(f"Failed to load LoRA into UNet: {e}")
 
-def unload_b_lora_from_unet(pipe):
+def unload_lora_from_unet(pipe):
     pipe.unload_lora_weights()
 
 def main():
@@ -77,8 +77,8 @@ def main():
     control_edges = np.stack([control_edges] * 3, axis=-1)
     control_image = Image.fromarray(control_edges)
 
-    # Load B-LoRA
-    load_b_lora_to_unet(pipe, args.content_B_LoRA, args.style_B_LoRA, args.content_alpha, args.style_alpha)
+    # Load LoRA
+    load_lora_to_unet(pipe, args.structure_LoRA, args.style_LoRA, args.structure_alpha, args.style_alpha)
 
     # Generate images
     processor = IPAdapterMaskProcessor()
@@ -107,7 +107,7 @@ def main():
         print(f"Error during image generation: {e}")
 
     # Clean up
-    unload_b_lora_from_unet(pipe)
+    unload_lora_from_unet(pipe)
     torch.cuda.empty_cache()
     gc.collect()
 
