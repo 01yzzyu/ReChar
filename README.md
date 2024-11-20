@@ -1,5 +1,6 @@
 # ReChar: Revitalising Characters with Structure-Preserved and User-Specified Aesthetic Enhancements.
 
+This is the offical page of **ReChar: Revitalising Characters with Structure-Preserved and User-Specified Aesthetic Enhancements.**
 <a href="https://01yzzyu.github.io/rechar.github.io/"><img src="https://img.shields.io/static/v1?label=Project&message=Website&color=blue"></a> 
 
 ![mech](https://github.com/01yzzyu/ReChar/blob/main/assets/framework_00.png)	
