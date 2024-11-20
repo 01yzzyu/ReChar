@@ -1,17 +1,11 @@
 # ReChar
 
 This is the project page of **ReChar: Revitalising Characters with Structure-Preserved and User-Specified Aesthetic Enhancements.**
-
+<a href="https://01yzzyu.github.io/rechar.github.io/"><img src="https://img.shields.io/static/v1?label=Project&message=Website&color=blue"></a> 
 
 ![mech](https://github.com/01yzzyu/ReChar/blob/main/assets/framework_00.png)	
 
 ReChar integrates three distinct yet interrelated modules: (1) a character structure extraction module, which is designed to preserve the integrity of the character's form, (2) an element generation module, responsible for producing user-defined decorative elements based on textual input, and (3) a style extraction module, aimed at capturing the visual style from a reference image provided by the user. These components are subsequently fused in a controllable synthesis step, which enables flexible and user-customized image generation. To provide a clearer understanding of our approach, we will illustrate the generation process of an instance through a detailed case study.
-
-
-
-# Implicit Style-Content Separation using B-LoRA
-<a href="https://01yzzyu.github.io/rechar.github.io/"><img src="https://img.shields.io/static/v1?label=Project&message=Website&color=blue"></a> 
-
 
 
 This repository contains the official implementation of the ReChar method, which enables implicit style-content separation of a single input image for Revitalising Character task. 
