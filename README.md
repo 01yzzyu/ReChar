@@ -39,12 +39,12 @@ Please note that we used a previous version of diffusers (0.25.0) and did not us
 
 2. Install the required dependencies:
    ```
-   **Linux**
+   Linux
    pip install -r requirements.txt
    ```
 
    ```
-   **Window**
+   Window
    Immediately after creating the conda environment, install CUDA PyTorch:
 
    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
