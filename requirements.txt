@@ -1,9 +1,12 @@
 accelerate
+argparse
 bitsandbytes==0.36.0.post2
 datasets
 diffusers==0.25.0
 ftfy==6.1.1
 huggingface-hub
+numpy
+opencv-python
 Pillow==9.4.0
 python-slugify==7.0.0
 torch
