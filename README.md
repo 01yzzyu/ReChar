@@ -100,6 +100,11 @@ Parameters that need to replace  `instance_data_dir`, `output_dir`, `instance_pr
    2. `--num_images_per_prompt` for specifying the number of output images.
 
 
+3. **User Study**
+
+   Our user research is implemented [here](https://github.com/01yzzyu/ReChar/tree/main/Human%20Evaluation)
+
+   
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
