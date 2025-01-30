@@ -85,14 +85,8 @@ Parameters that need to replace  `instance_data_dir`, `output_dir`, `instance_pr
 
    For image stylization based on a reference style image (1) and character structure image (2), run:
    ```
-   python inference.py \
-   --prompt="A Decorative element" \
-   --structure_LoRA="<path/to/structure_LoRA>" \
-   --style_LoRA="<path/to/style_LoRA>" \
-   --output_path="<path/to/output_dir>" \
-   --structure_alpha 1.0 \
-   --style_alpha 0.9 \
-   --control_image_path "/path/to/control_image.png"
+   python generate_images.py --prompt "A beautiful landscape" --output_dir "./output" --content_B_LoRA_path "./content_lora" --style_B_LoRA_path "./style_lora" --control_image_path "./control_image.png" --style_prompt "A landscape in [v101] style"
+
    ```
  
    Several additional parameters that you can set in the `inference.py` file include:
