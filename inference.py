@@ -7,7 +7,7 @@ from PIL import Image
 import cv2
 import numpy as np
 import gc
-from blora_utils import BLOCKS, filter_lora, scale_lora
+from utils import BLOCKS, filter_lora, scale_lora
 from tqdm import tqdm
 import time
 
