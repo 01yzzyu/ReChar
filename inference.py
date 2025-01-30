@@ -1,7 +1,3 @@
-以下是经过优化和规范后的代码，所有参数都通过`parse_args()`函数集中管理，并且添加了详细的英文注释。同时，代码结构更加清晰，便于维护和扩展。
-
-
-```python
 import torch
 import os
 from diffusers import StableDiffusionXLControlNetPipeline, ControlNetModel, AutoencoderKL
